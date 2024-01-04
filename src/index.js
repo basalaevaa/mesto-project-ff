@@ -63,6 +63,7 @@ function openImage(evt) {
     imageInPopup.alt = evt.currentTarget.querySelector('.card__image').alt;
     imageName.textContent = evt.currentTarget.querySelector('.card__title').textContent;
   }
+  document.addEventListener('keydown', closeOnEscape);
 }
 
 function addCardFormSubmit(evt) {
