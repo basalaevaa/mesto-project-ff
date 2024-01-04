@@ -1,23 +1,23 @@
 import './index.css';
 import { createCard, deleteCard, likeCard } from "./components/card.js";
 import { initialCards } from "./components/cards.js";
-import { openModal, closeModal } from "./components/modal.js";
+import { openModal, closeModal, closeOnEscape, closeOnOverlayClick } from "./components/modal.js";
 
 const container = document.querySelector('.content');
 const cardsContainer = container.querySelector('.places__list');
 
-const formElement = document.forms['edit-profile'];
-const nameInput = formElement.elements.name;
-const jobInput = formElement.elements.description;
+const formEditProfile = document.forms['edit-profile'];
+const nameInput = formEditProfile.elements.name;
+const jobInput = formEditProfile.elements.description;
 const nameProfile = document.querySelector('.profile__title');
 const jobProfile = document.querySelector('.profile__description');
 
-nameInput.value = nameProfile.textContent;
-jobInput.value = jobProfile.textContent;
+const formAddImage = document.forms['new-place'];
+const placeInput = formAddImage.elements['place-name'];
+const linkInput = formAddImage.elements.link;
 
-const formImage = document.forms['new-place'];
-const placeInput = formImage.elements['place-name'];
-const linkInput = formImage.elements.link;
+const imageInPopup = document.querySelector('.popup_type_image .popup__image');
+const imageName = document.querySelector('.popup_type_image .popup__caption');
 
 const popups = {
   editName: {
@@ -37,36 +37,14 @@ const popups = {
   }
 };
 
-function closeOnEscape(evt) {
-  if (evt.key === 'Escape') {
-    Object.values(popups).forEach(({ popup }) => {
-      closeModal(popup);
-    });
-  }
+function openImage(element) {
+  openModal(popups.openCard.popup);
+  imageInPopup.src = element.link;
+  imageInPopup.alt = element.name;
+  imageName.textContent = element.name;
 }
 
-function closeOnOverlayClick(evt) {
-  if (evt.target === evt.currentTarget) {
-    Object.values(popups).forEach(({ popup }) => {
-      closeModal(popup);
-    });
-  }
-}
-
-function openImage(evt) {
-  const imageInPopup = document.querySelector('.popup_type_image .popup__image');
-  const imageName = document.querySelector('.popup_type_image .popup__caption');
-
-  if (evt.target === evt.currentTarget.querySelector('.card__image')) {
-    openModal(popups.openCard.popup);
-    imageInPopup.src = evt.currentTarget.querySelector('.card__image').src;
-    imageInPopup.alt = evt.currentTarget.querySelector('.card__image').alt;
-    imageName.textContent = evt.currentTarget.querySelector('.card__title').textContent;
-  }
-  document.addEventListener('keydown', closeOnEscape);
-}
-
-function addCardFormSubmit(evt) {
+function handleFormAddImageSubmit(evt) {
   evt.preventDefault();
   const element = {
     name: placeInput.value,
@@ -74,11 +52,10 @@ function addCardFormSubmit(evt) {
   };
   cardsContainer.prepend(createCard(element, deleteCard, likeCard, openImage));
   closeModal(popups.addCard.popup);
-  placeInput.value = '';
-  linkInput.value = '';
+  formAddImage.reset();
 }
 
-function handleFormSubmit(evt) {
+function handleFormEditProfileSubmit(evt) {
   evt.preventDefault();
   nameProfile.textContent = nameInput.value;
   jobProfile.textContent = jobInput.value;
@@ -93,16 +70,19 @@ Object.values(popups).forEach(({ popup, openButton, closeButton}) => {
   if (openButton !== null) {
     openButton.addEventListener('click', () => {
       openModal(popup);
-      document.addEventListener('keydown', closeOnEscape);
+      if (openButton.classList.contains('profile__edit-button')) {
+        nameInput.value = nameProfile.textContent;
+        jobInput.value = jobProfile.textContent;
+      }
     });
   }
   closeButton.addEventListener('click', () => {
     closeModal(popup);
-    document.removeEventListener('keydown', closeOnEscape);
   })
   popup.addEventListener('click', closeOnOverlayClick);
 });
 
-formElement.addEventListener('submit', handleFormSubmit);
+formEditProfile.addEventListener('submit', handleFormEditProfileSubmit);
+formAddImage.addEventListener('submit', handleFormAddImageSubmit);
 
-formImage.addEventListener('submit',addCardFormSubmit);
+//Спасибо большое за ревью!
