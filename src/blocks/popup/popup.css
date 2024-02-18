@@ -1,5 +1,4 @@
 @import url('./__content/popup__content.css');
-@import url('./__content/_content/popup__content_content_image.css');
 @import url('./__close/popup__close.css');
 @import url('./__title/popup__title.css');
 @import url('./__form/popup__form.css');
@@ -20,4 +19,22 @@
   bottom: 0;
   right: 0;
   z-index: 10;
+}
+
+
+.button_inactive {
+  color: rgba(0, 0, 0, .2);
+  background-color: #FFF;
+  border:  2px solid rgba(0, 0, 0, .2);
+  pointer-events: none;
+}
+
+.popup__error_visible {
+	display: block;
+	color: #ff0000;
+	font-size: 12px;
+}
+.popup__input_type_error {
+	border-bottom: 1px solid #ff0000;
+  outline: none;
 }

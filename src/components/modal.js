@@ -18,10 +18,10 @@ function closeOnEscape(evt) {
   }
 }
 
-function closeOnOverlayClick(evt) {
+function closeByOverlay(evt) {
   if (evt.target === evt.currentTarget) {
     closeModal(evt.target);
   }
 }
 
-export { openModal, closeModal, closeOnEscape, closeOnOverlayClick };
+export { openModal, closeModal, closeByOverlay };

@@ -14,3 +14,29 @@
   margin-bottom: 0;
 }
 
+@media screen and (max-width: 568px) {
+  .popup__title {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+.popup__input_error {
+  color: #F00;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+}
+.popup__input_type_error {
+  border-block-end-color:red}
+
+.popup__error_visible {
+  color: red;
+  display: block;
+  font-size: 12px;
+  position: absolute
+}
+
+.popup__input_type_error {
+  border-block-end-color: #ff0000;
+}
+
